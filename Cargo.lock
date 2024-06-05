@@ -2198,7 +2198,7 @@ dependencies = [
  "reqwest",
  "serde 1.0.203",
  "serde-aux",
- "serde_json",
+ "serde_derive",
  "tokio",
  "tracing",
  "tracing-actix-web",

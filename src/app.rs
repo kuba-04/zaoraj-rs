@@ -4,7 +4,7 @@ use actix_web::{App, HttpServer, web};
 use actix_web::dev::Server;
 
 use crate::configuration::Settings;
-use zaoraj_rs::routes::health_check;
+use zaoraj_rs::routes::{complain, health_check};
 
 pub struct Application {
     port: u16,
@@ -24,7 +24,7 @@ impl Application {
             App::new()
                 // .wrap(TracingLogger::default())
                 .route("/health_check", web::get().to(health_check))
-                // .route("/message", web::post().to(message))
+                .route("/complain", web::post().to(complain))
         })
             .listen(listener)?
             .run();

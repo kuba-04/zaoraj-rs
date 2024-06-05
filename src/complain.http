@@ -1,0 +1,7 @@
+### send example complaint
+POST http://localhost:8082/complain
+Content-Type: application/json
+
+{ "message" : "test" }
+
+###
