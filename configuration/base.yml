@@ -1,2 +1,6 @@
 application:
   port: 8082
+openai:
+  api_key:
+  prompt:
+  base_url:

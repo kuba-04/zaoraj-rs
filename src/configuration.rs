@@ -1,5 +1,5 @@
-use std::convert::{TryFrom, TryInto};
 use serde_aux::field_attributes::deserialize_number_from_string;
+use std::convert::{TryFrom, TryInto};
 
 pub enum Environment {
     Local,
@@ -29,18 +29,24 @@ impl TryFrom<String> for Environment {
     }
 }
 
-#[derive(Clone)]
-#[derive(serde::Deserialize)]
+#[derive(Clone, serde::Deserialize)]
 pub struct Settings {
     pub application: ApplicationSettings,
+    pub openai: OpenAiSettings,
 }
 
-#[derive(Clone)]
-#[derive(serde::Deserialize)]
+#[derive(Clone, serde::Deserialize)]
 pub struct ApplicationSettings {
     #[serde(deserialize_with = "deserialize_number_from_string")]
     pub port: u16,
     pub host: String,
+}
+
+#[derive(Clone, serde::Deserialize)]
+pub struct OpenAiSettings {
+    pub api_key: String,
+    pub prompt: String,
+    pub base_url: String,
 }
 
 pub fn get_configuration() -> Result<Settings, config::ConfigError> {
@@ -58,6 +64,6 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
         config::File::from(configuration_directory.join(environment.as_str())).required(true),
     )?;
 
+    settings.merge(config::Environment::with_prefix("app").separator("__"))?;
     settings.try_into()
-
 }
